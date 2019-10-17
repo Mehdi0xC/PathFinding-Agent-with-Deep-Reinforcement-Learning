@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from copy import deepcopy as cp
-from utils import getData, softmax, cost2, y2indicator, errorRate, relu
+from utils import softmax, relu
 from sklearn.utils import shuffle
 
 
@@ -16,36 +16,19 @@ class MLP(object):
         self.nInputs = settings["nInputs"]
         #input to hidden layer weights and biases
         self.W1 = np.random.randn(self.nInputs, self.nNeurons) / np.sqrt(self.nInputs + self.nNeurons)
-        self.b1 = np.zeros(self.nNeurons)
+        self.b1 = 0.01+np.zeros(self.nNeurons)
         #hidden layer to output weights and biases
         self.W2 = np.random.randn(self.nNeurons, self.nOutputs) / np.sqrt(self.nNeurons + self.nOutputs)
-        self.b2 = np.zeros(self.nOutputs) 
+        self.b2 = 0.01+np.zeros(self.nOutputs) 
         self.reg = settings["reg"]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     def learn(self, batchState, batchNextState, batchReward, batchAction):
 
         hiddenLayerOutput = relu(batchState.dot(self.W1) + self.b1)
         output = hiddenLayerOutput.dot(self.W2) + self.b2
-
         target = cp(output)
-
         hiddenLayerOutput2 = relu(batchNextState.dot(self.W1) + self.b1)
         nextOutputs = hiddenLayerOutput2.dot(self.W2) + self.b2 
-        
         maxIndices = np.argmax(nextOutputs,axis=1)
         for i in range(self.batchSize):
             target[i,batchAction[i].astype(int)] =  self.gamma*nextOutputs[i,maxIndices[i]] + batchReward[i]
@@ -69,13 +52,13 @@ class MLP(object):
         print(np.max(self.b2))
         print(np.min(output))
         print(np.max(output))
-  
-      
 
-
-
-
-    def predict(self, X):
+    def predict(self, X, learning):
         hiddenLayerOutput = relu(X.dot(self.W1) + self.b1)
         output = hiddenLayerOutput.dot(self.W2) + self.b2
+        if(learning):
+            probs = softmax(output)
+            selected = np.random.choice(probs, 1,p=probs)
+            action = np.where(probs == np.random.choice(probs, 1,p=probs))
+            return (int(action[0]))
         return np.argmax(output)

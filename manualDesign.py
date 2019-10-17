@@ -24,6 +24,7 @@ class ReplayMemory(object):
 class DQN():
     # Implementing Deep Q-Learning constructor
     def __init__(self, settings):
+        self.settings = settings
         self.batchSize = settings["batchSize"]
         self.model = MLP(settings)
         self.memory = ReplayMemory(settings["memoryCapacity"])
@@ -65,15 +66,12 @@ class DQN():
         if(self.freeze):
             return
         newState = np.array(newState)
-        if(self.lastState.any() or newState.any()):
-            self.memory.push([self.lastState, newState, self.lastAction, reward])
-            print("here")
-            print(self.lastState)
-            print(newState)
-            print(self.lastAction)
-            print(reward)
-        action = self.model.predict(newState)
-        if len(self.memory.memory) > self.batchSize:
+        self.memory.push([self.lastState, newState, self.lastAction, reward])
+        if (len(self.memory.memory) < self.settings["learningIterations"]):
+            action = self.model.predict(newState, True)
+        else:
+            action = self.model.predict(newState, False)
+        if len(self.memory.memory) > self.batchSize and len(self.memory.memory) < self.settings["learningIterations"]:
             samples = self.memory.sample(self.batchSize)
             batchState = np.zeros((self.batchSize,self.nInputs))
             batchNextState = np.zeros((self.batchSize,self.nInputs))

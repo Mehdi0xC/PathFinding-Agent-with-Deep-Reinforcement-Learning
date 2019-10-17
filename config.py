@@ -8,7 +8,7 @@ learningCoreSettings = {
     "nOutputs" : 3,
     "nInputs" : 3,
     "reg" : 0,  
-    "backend" : "pytorch",
+    "backend" : "manual",
     "rewardAmount" : 0.1,
     "punishAmount" : -1,
     "softmaxTemperature" : 10,
