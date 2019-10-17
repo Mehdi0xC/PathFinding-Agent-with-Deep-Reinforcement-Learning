@@ -89,7 +89,7 @@ class DQN():
         self.lastReward = reward
         return action
     
-# Score Function to Evaluate the testAlgorithm
+# Score Function to Evaluate the Algorithm
     def score(self):
         return sum(self.rewardWindow)/(len(self.rewardWindow)+1.)
 
