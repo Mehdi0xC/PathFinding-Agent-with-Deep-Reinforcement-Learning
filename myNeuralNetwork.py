@@ -4,7 +4,6 @@ from copy import deepcopy as cp
 from utils import softmax, relu
 from sklearn.utils import shuffle
 
-
 class MLP(object):
     def __init__(self,settings):
         self.gamma = settings["gamma"]
@@ -23,7 +22,6 @@ class MLP(object):
         self.reg = settings["reg"]
 
     def learn(self, batchState, batchNextState, batchReward, batchAction):
-
         hiddenLayerOutput = relu(batchState.dot(self.W1) + self.b1)
         output = hiddenLayerOutput.dot(self.W2) + self.b2
         target = cp(output)
@@ -32,7 +30,6 @@ class MLP(object):
         maxIndices = np.argmax(nextOutputs,axis=1)
         for i in range(self.batchSize):
             target[i,batchAction[i].astype(int)] =  self.gamma*nextOutputs[i,maxIndices[i]] + batchReward[i]
-
         # gradient descent step
         distance = target - output
         self.W2 += self.learningRate*(hiddenLayerOutput.T.dot(distance) + self.reg*self.W2)
@@ -40,25 +37,12 @@ class MLP(object):
         dOutput = distance.dot(self.W2.T) * (hiddenLayerOutput > 0) # relu
         self.W1 += self.learningRate*(batchState.T.dot(dOutput) + self.reg*self.W1)
         self.b1 += self.learningRate*(dOutput.sum(axis=0) + self.reg*self.b1)
-        # print(self.b1)
-
-        print("log")
-        print(np.max(self.W1))
-        print(np.min(self.W1))
-        print(np.max(self.W2))
-        print(np.min(self.W2))
-        print(np.max(self.b1))
-        print(np.min(self.b1))
-        print(np.max(self.b2))
-        print(np.min(output))
-        print(np.max(output))
 
     def predict(self, X, learning):
         hiddenLayerOutput = relu(X.dot(self.W1) + self.b1)
         output = hiddenLayerOutput.dot(self.W2) + self.b2
         if(learning):
             probs = softmax(output)
-            selected = np.random.choice(probs, 1,p=probs)
             action = np.where(probs == np.random.choice(probs, 1,p=probs))
             return (int(action[0]))
         return np.argmax(output)

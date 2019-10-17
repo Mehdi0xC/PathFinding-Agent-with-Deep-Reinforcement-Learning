@@ -12,8 +12,8 @@ learningCoreSettings = {
     "rewardAmount" : 0.1,
     "punishAmount" : -1,
     "softmaxTemperature" : 10,
-    "learningIterations" : 1000,
-    "predictionIterations" : 1000,
+    "learningIterations" : 2500,
+    "predictionIterations" : 2500,
     "device" : "COM5"}
 
 learningDeviceSettings = {
