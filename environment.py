@@ -15,23 +15,19 @@ from kivy.vector import Vector
 from kivy.clock import Clock
 from kivy.core.window import Window
 
-
 # Importing configs
-from config import learningCoreSettings, environmentSettings
-
-# Adding this line if we don't want the right click to put a red point
-Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
+from config import learningCoreSettings, environmentSetting
 
 # Introducing last_x and last_y, used to keep the last point in memory when we draw the tape on the map
 last_x = 0
 last_y = 0
 n_points = 0
 length = 0
+Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 agentWidth = environmentSettings["agentWidth"]
 agentLength = environmentSettings["agentLength"]
 sensorSize = environmentSettings["sensorSize"]
 sensorSensitivity = environmentSettings["sensorSensitivity"]
-
 
 # Getting our AI, which we call "brain", and that contains our neural network that represents our Q-function
 if(learningCoreSettings["backend"]=="pytorch"):
@@ -44,12 +40,10 @@ else:
     from UART import Interface
     brain =  Interface()
 
-
 # interface = Interface()
 action2rotation = [0,-1*environmentSettings["rotationDegree"],+1*environmentSettings["rotationDegree"]]
-last_reward = 0
+lastReward = 0
 Window.clearcolor = (0.96, 0.96, 0.96, 1)
-
 
 # Initializing the map
 first_update = True
@@ -60,9 +54,7 @@ def init():
     first_update = False
 
 # Creating the agent class
-
 class Agent(Widget):
-    
     angle = NumericProperty(0)
     rotation = NumericProperty(0)
     velocity_x = NumericProperty(0)
@@ -89,7 +81,6 @@ class Agent(Widget):
     sensor7_x = NumericProperty(0)
     sensor7_y = NumericProperty(0)
     sensor7 = ReferenceListProperty(sensor7_x, sensor7_y)    
-
     signal1 = NumericProperty(0)
     signal2 = NumericProperty(0)
     signal3 = NumericProperty(0)
@@ -114,20 +105,17 @@ class Agent(Widget):
         self.sensor6 = Vector(72, 0).rotate((self.angle+2*environmentSettings["sensorsRotationalDistance"])%360) + self.pos + (agentLength/2-sensorSize/2,agentWidth/2-sensorSize/2)
         self.sensor7 = Vector(72, 0).rotate((self.angle+3*environmentSettings["sensorsRotationalDistance"])%360) + self.pos + (agentLength/2-sensorSize/2,agentWidth/2-sensorSize/2)
 
-   
         self.signal1 = int(bool(np.sum(tape[int(self.sensor1_x+sensorSize/2)-sensorSensitivity:int(self.sensor1_x+sensorSize/2)+sensorSensitivity, int(self.sensor1_y+sensorSize/2)-sensorSensitivity:int(self.sensor1_y+sensorSize/2)+sensorSensitivity])))
         self.signal2 = int(bool(np.sum(tape[int(self.sensor2_x+sensorSize/2)-sensorSensitivity:int(self.sensor2_x+sensorSize/2)+sensorSensitivity, int(self.sensor2_y+sensorSize/2)-sensorSensitivity:int(self.sensor2_y+sensorSize/2)+sensorSensitivity])))
         self.signal3 = int(bool(np.sum(tape[int(self.sensor3_x+sensorSize/2)-sensorSensitivity:int(self.sensor3_x+sensorSize/2)+sensorSensitivity, int(self.sensor3_y+sensorSize/2)-sensorSensitivity:int(self.sensor3_y+sensorSize/2)+sensorSensitivity])))
         self.signal4 = int(bool(np.sum(tape[int(self.sensor4_x+sensorSize/2)-sensorSensitivity:int(self.sensor4_x+sensorSize/2)+sensorSensitivity, int(self.sensor4_y+sensorSize/2)-sensorSensitivity:int(self.sensor4_y+sensorSize/2)+sensorSensitivity])))
         self.signal5 = int(bool(np.sum(tape[int(self.sensor5_x+sensorSize/2)-sensorSensitivity:int(self.sensor5_x+sensorSize/2)+sensorSensitivity, int(self.sensor5_y+sensorSize/2)-sensorSensitivity:int(self.sensor5_y+sensorSize/2)+sensorSensitivity])))
         self.signal6 = int(bool(np.sum(tape[int(self.sensor6_x+sensorSize/2)-sensorSensitivity:int(self.sensor6_x+sensorSize/2)+sensorSensitivity, int(self.sensor6_y+sensorSize/2)-sensorSensitivity:int(self.sensor6_y+sensorSize/2)+sensorSensitivity])))
-        self.signal7 = int(bool(np.sum(tape[int(self.sensor7_x+sensorSize/2)-sensorSensitivity:int(self.sensor7_x+sensorSize/2)+sensorSensitivity, int(self.sensor7_y+sensorSize/2)-sensorSensitivity:int(self.sensor7_y+sensorSize/2)+sensorSensitivity])))
+        self.signal7 = int(bool(np.sum(tape[int(self.sensor7_x+sensorSize/2)-sensorSensitivity:int(self.sensor7_x+sensorSize/2)+sensorSensitivity, int(self.sensor7_y+sensorSize/2)-sensorSensitivity:int(self.sensor7_y+sensorSize/2)+sensorSensitivity])))  
    
-   
-        if self.pos[0]>longueur-10 or self.pos[0]<10 or self.pos[1]>largeur-10 or self.pos[1]<10:
+        if self.pos[0]>longueur-200 or self.pos[0]<10 or self.pos[1]>largeur-10 or self.pos[1]<10:
             self.pos = Vector(*self.velocity) + (longueur/10,largeur*0.8)
             self.angle = 0
-
 
 class Ball1(Widget):
     pass
@@ -144,12 +132,9 @@ class Ball6(Widget):
 class Ball7(Widget):
     pass            
 
-
 # Creating the game class
 
 class Game(Widget):
-    
-
     agent = ObjectProperty(None)
     ball1 = ObjectProperty(None)
     ball2 = ObjectProperty(None)
@@ -177,7 +162,7 @@ class Game(Widget):
             return
 
         global brain
-        global last_reward
+        global lastReward
         global longueur
         global largeur
 
@@ -186,15 +171,14 @@ class Game(Widget):
         if first_update:
             init()
 
-
         if(learningCoreSettings["nInputs"]==3):
-            last_signal = [
+            lastSignal = [
                 self.agent.signal1 or self.agent.signal2,
                 self.agent.signal3 or self.agent.signal4 or self.agent.signal5,
                 self.agent.signal6 or self.agent.signal7
             ]
         else:
-            last_signal = [
+            lastSignal = [
                 self.agent.signal1,
                 self.agent.signal2,
                 self.agent.signal3,
@@ -213,8 +197,8 @@ class Game(Widget):
             self.agent.signal6,
             self.agent.signal7]
 
-
-        action = brain.update(last_reward, last_signal)
+        # Observing the Environment and Fetching the Proper Action    
+        action = brain.update(lastReward, lastSignal)
 
         rotation = action2rotation[action]
         self.agent.move(rotation)
@@ -239,39 +223,39 @@ class Game(Widget):
 
         if(learningCoreSettings["nInputs"]==3):
             if ((self.agent.signal3 == 1) or (self.agent.signal4 == 1) or (self.agent.signal5 == 1)):
-                last_reward = learningCoreSettings["rewardAmount"]
+                lastReward = learningCoreSettings["rewardAmount"]
             else: # otherwise
-                last_reward = learningCoreSettings["punishAmount"]
+                lastReward = learningCoreSettings["punishAmount"]
         else:
             if (self.agent.signal4 == 1):
-                last_reward = learningCoreSettings["rewardAmount"]
+                lastReward = learningCoreSettings["rewardAmount"]
             elif (self.agent.signal1 == 0):
-                last_reward = 0
+                lastReward = 0
             elif (self.agent.signal7 == 0):
-                last_reward = 0
+                lastReward = 0
             elif (self.agent.signal2 == 0):
-                last_reward = 0
+                lastReward = 0
             elif (self.agent.signal6 == 0):
-                last_reward = 0
+                lastReward = 0
             elif (self.agent.signal3 == 0):
-                last_reward = 0
+                lastReward = 0
             elif (self.agent.signal5 == 0):
-                last_reward = 0
+                lastReward = 0
             else:
-                last_reward = learningCoreSettings["punishAmount"]
+                lastReward = learningCoreSettings["punishAmount"]
      
         if self.agent.x < 10:
             self.agent.x = 10
-            last_reward = -1
+            lastReward = -1
         if self.agent.x > self.width - 10:
             self.agent.x = self.width - 10
-            last_reward = -1
+            lastReward = -1
         if self.agent.y < 10:
             self.agent.y = 10
-            last_reward = -1
+            lastReward = -1
         if self.agent.y > self.height - 10:
             self.agent.y = self.height - 10
-            last_reward = -1
+            lastReward = -1
 
 # Adding the painting tools
 class MyPaintWidget(Widget):
@@ -319,8 +303,6 @@ class CarApp(App):
         clearbtn = Button(text = 'clear', pos = (5*environmentSettings["buttonWidth"], 0))
         monitorbtn = Button(text = 'monitor', pos = (6*environmentSettings["buttonWidth"], 0))
 
-
-
         clearbtn.bind(on_release = self.clear_canvas)
         savebtn.bind(on_release = self.save)
         loadbtn.bind(on_release = self.load)
@@ -337,8 +319,6 @@ class CarApp(App):
         self.parent.add_widget(psbtn)
         self.parent.add_widget(rsbtn)
         self.parent.add_widget(monitorbtn)
-
-
         return self.parent
 
     def clear_canvas(self, obj):
@@ -364,7 +344,7 @@ class CarApp(App):
         self.parent.freeze=False
 
     def monitor(self, obj):
-        print("pausing the simulation...")
+        print("monitoring the parameters...")
         self.parent.freeze=True
         brain.monitor()
 
