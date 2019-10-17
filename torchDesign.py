@@ -9,7 +9,7 @@ import torch.optim as optim
 import torch.autograd as autograd
 from torch.autograd import Variable
 
-# Creating the Ar4chitecture of the Neural Network
+# Creating the Architecture of the Neural Network
 class Network(nn.Module):
     def __init__(self, nInputs, nOutput, nNeuron):
         super(Network, self).__init__()
