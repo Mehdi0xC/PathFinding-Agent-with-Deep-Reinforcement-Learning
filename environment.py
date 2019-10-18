@@ -16,7 +16,7 @@ from kivy.clock import Clock
 from kivy.core.window import Window
 
 # Importing configs
-from config import learningCoreSettings, environmentSetting
+from config import learningCoreSettings, environmentSettings
 
 # Introducing last_x and last_y, used to keep the last point in memory when we draw the tape on the map
 last_x = 0
@@ -44,6 +44,7 @@ else:
 action2rotation = [0,-1*environmentSettings["rotationDegree"],+1*environmentSettings["rotationDegree"]]
 lastReward = 0
 Window.clearcolor = (0.96, 0.96, 0.96, 1)
+Window.size = (environmentSettings["environmentWidth"], environmentSettings["environmentHeight"])
 
 # Initializing the map
 first_update = True

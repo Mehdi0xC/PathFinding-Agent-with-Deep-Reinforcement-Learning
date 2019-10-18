@@ -45,5 +45,7 @@ environmentSettings = {
     "agentVelocity" : 5,
     "sensorsRotationalDistance":15,
     "sensorSensitivity" : 8,
-    "buttonWidth" : 230
+    "buttonWidth" : 230,
+    "environmentWidth" : 800,
+    "environmentHeight" : 600
 }
