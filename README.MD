@@ -34,7 +34,7 @@ Hyperparameters were obtained as follow:
 ---
 **<bold class="text-elite">Step 3</bold>**
 
-Implementation is done with fully numpy framework in order to getting more confident with it. Object oriented programming methodology is used.
+Implementation is done with fully numpy framework with object-oriented methodology.
 ![Block Diagram](img/img0.jpg "Block Diagram")
 
 
