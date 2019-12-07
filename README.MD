@@ -5,11 +5,11 @@ I've defined the project to be as follow:
 
 1.  The algorithm to be implemented is the famouse DQN algorithm, introduced in <a href=https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf  style="color:#00c890">this paper</a>
 2.  The implementation should be done in a virtual simulation environment, using python language.
-![Simulation Environment](img/featured.jpg "Simulation Environment")
 ---
 **<bold class="text-elite">Step 1</bold>**
 
 The first step was to design a simulation environment. Kivy framework is used for this purpose. An agent with seven sensors (adjustable) starts in a specific position on a white field, the user can draw lines on the field and the agent is able to percept those lines with its sensors.
+![Simulation Environment](img/featured.jpg "Simulation Environment")
 
 
 
@@ -34,7 +34,9 @@ Hyperparameters were obtained as follow:
 ---
 **<bold class="text-elite">Step 3</bold>**
 
-Implementation is done with fully numpy framework in order to getting more confident with it
+Implementation is done with fully numpy framework in order to getting more confident with it. Object oriented programming methodology is used.
+![Block Diagram](img/img0.jpg "Block Diagram")
+
 
 ---
 
