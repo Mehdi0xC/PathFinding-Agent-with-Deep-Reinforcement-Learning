@@ -95,6 +95,6 @@ environmentSettings = {
 
 The robot exhibited as expected. We executed it for 5000 iterations, 2500 iterations for exploration phase (based on epsillon-greedy method) and another 2500 iterations for "prediction phase" (which we stopped the learning and fixed the MLP weights). Here, we provided a video showing its functionality:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Ro-5tXjEGlY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<a href="https://www.youtube.com/embed/Ro-5tXjEGlY"></a>
 
 This is a experimental project suitable for testing and working with small-scale reinforcement learning tasks which can be used in experimenting different algorithms for autonomous systems, adaptive control, computational neuroscience and other related fields. 
