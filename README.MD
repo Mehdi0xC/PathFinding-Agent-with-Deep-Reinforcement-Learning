@@ -1,15 +1,17 @@
 # PathFinding Agent with Deep Reinforcement Learning
-This project was done as a part of my <span style="color:#00c890">B.Sc. Thesis</span> under supervision of Dr. Mehdi Sedighi, Computer Engineering Department, Tehran Polytechnic.
-The aim was to implement a reinforcement learning algorithm to train a pathfinding agent to follow the path it's intended to follow.
+This project was done as a part of my **B.Sc. Thesis** under supervision of Dr. Mehdi Sedighi, Computer Engineering Department, Tehran Polytechnic.
+The aim was to implement a **reinforcement learning** algorithm to train a pathfinding agent to follow the path it's intended to follow.
 I've defined the project to be as follow:
 
-1.  he algorithm to be implemented is the famouse DQN algorithm, introduced in <a href=https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf  style="color:#00c890">this paper</a>
+1.  The algorithm to be implemented is the famouse DQN algorithm, introduced in <a href=https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf  style="color:#00c890">this paper</a>
 2.  The implementation should be done in a virtual simulation environment, using python language.
-
+![Simulation Environment](img/featured.jpg "Simulation Environment")
 ---
 **<bold class="text-elite">Step 1</bold>**
 
 The first step was to design a simulation environment. Kivy framework is used for this purpose. An agent with seven sensors (adjustable) starts in a specific position on a white field, the user can draw lines on the field and the agent is able to percept those lines with its sensors.
+
+
 
 ---
 **<bold class="text-elite">Step 2</bold>**
