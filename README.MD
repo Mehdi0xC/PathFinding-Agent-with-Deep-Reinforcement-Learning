@@ -1,3 +1,4 @@
+# PathFinding Agent with Deep Reinforcement Learning
 This project was done as a part of my <span style="color:#00c890">B.Sc. Thesis</span> under supervision of Dr. Mehdi Sedighi, Computer Engineering Department, Tehran Polytechnic.
 The aim was to implement a reinforcement learning algorithm to train a pathfinding agent to follow the path it's intended to follow.
 I've defined the project to be as follow:
