@@ -1,3 +1,8 @@
 
 from environment import CarApp
-CarApp().run()
+
+def main:
+	CarApp().run()
+
+if __name__ ==	'__main__':
+	main()
