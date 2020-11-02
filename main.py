@@ -1,7 +1,7 @@
 
 from environment import CarApp
 
-def main:
+def main():
 	CarApp().run()
 
 if __name__ ==	'__main__':
