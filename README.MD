@@ -1,26 +1,26 @@
 # PathFinding Agent with Deep Reinforcement Learning
-This project was done as a part of my **B.Sc. Thesis** under supervision of Dr. Mehdi Sedighi, Computer Engineering Department, Tehran Polytechnic.
-The aim was to implement a **reinforcement learning** algorithm to train a pathfinding agent to follow the path it's intended to follow.
-I've defined the project to be as follow:
+This project was done as part of my **B.Sc. Thesis** under the supervision of Dr. Mehdi Sedighi, Computer Engineering Department, Tehran Polytechnic.
+The aim was to implement a **reinforcement learning** algorithm to train a pathfinding agent to follow its intended path.
+I've defined the project as follows:
 
-1.  The algorithm to be implemented is the famouse DQN algorithm, introduced in <a href=https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf  style="color:#00c890">this paper</a>
-2.  The implementation should be done in a virtual simulation environment, using python language.
+1.  The algorithm to be implemented is the famous DQN algorithm, introduced in [this paper](https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf).
+2.  The implementation should be done in a virtual simulation environment, using the Python language.
 ---
-**<bold class="text-elite">Step 1</bold>**
+**Step 1**
 
-The first step was to design a simulation environment. Kivy framework is used for this purpose. An agent with seven sensors (adjustable) starts in a specific position on a white field, the user can draw lines on the field and the agent is able to percept those lines with its sensors.
+The first step was to design a simulation environment. The Kivy framework was used for this purpose. An agent with seven sensors (adjustable) starts in a specific position on a white field. The user can draw lines on the field, and the agent is able to perceive those lines with its sensors.
 ![Simulation Environment](img/featured.jpg "Simulation Environment")
 
 
 
 ---
-**<bold class="text-elite">Step 2</bold>**
+**Step 2**
 
-Pytorch library is used for highlevel implementation of DQN. For better exploration, epsillon-greedy method is used.
+The PyTorch library is used for the high-level implementation of DQN. For better exploration, the epsilon-greedy method is used.
 
-Hyperparameters were obtained as follow:
+Hyperparameters were obtained as follows:
 
-1. learningrate = 0.001
+1. learning rate = 0.001
 2. input layer neurons = 7
 3. output layer neurons = 3 (corresponding to three different movements)
 4. hidden layer neurons = 10
@@ -28,53 +28,53 @@ Hyperparameters were obtained as follow:
 6. gamma = 0.9
 7. reward = 0.1
 8. punishment (negative reward) = -1
-9. epsillon-greedy iterations = 2500
-10. epsillon-greedy initial probability = 0.5
+9. epsilon-greedy iterations = 2500
+10. epsilon-greedy initial probability = 0.5
 
 ---
-**<bold class="text-elite">Step 3</bold>**
+**Step 3**
 
-Implementation is done with fully numpy framework with object-oriented methodology.
+The implementation is done with the NumPy framework using an object-oriented methodology.
 ![Block Diagram](img/img0.jpg "Block Diagram")
 
 
 ---
 
-**<bold class="text-elite">Step 4</bold>**
+**Step 4**
 
-Added a config.py file to have control on simulation. It would be as follow:
+Added a config.py file to have control over the simulation. It would be as follows:
 
 ```python
 learningCoreSettings = {
-    # Number of hidden layer neurons (For three inputs, 8 to 16 neurons work like charm)
+    # Number of hidden layer neurons (For three inputs, 8 to 16 neurons work like a charm)
     "nNeurons" : 10,
     # Discount factor (Somewhere between 0.8 and 0.9 is ok)
     "gamma" : 0.9,
     # Replay memory capacity (10000 is more than enough)
     "memoryCapacity" : 10000,
-    # Learning-rate (Somewhere between 0.0001 to 0.005 is ok) 
+    # Learning rate (Somewhere between 0.0001 to 0.005 is ok) 
     "learningRate" : 0.001,
     # BatchSize, number of samples taken from replay memory in each Learning Iteration
     "batchSize" : 25,
-    # Non-linear activation function for neurons, ReLU is used in this project but you may implement others 
+    # Non-linear activation function for neurons, ReLU is used in this project, but you may implement others 
     "activationFunction" :"relu",
-    # Number of outputs, can be set to 3 (Its not generic yet)
+    # Number of outputs, can be set to 3 (It's not generic yet)
     "nOutputs" : 3,
-    # Number of inputs, can be set to 3 or 7 (Its not generic yet)
+    # Number of inputs, can be set to 3 or 7 (It's not generic yet)
     "nInputs" : 3,
-    # Regularization factor, for now its just implemented in manual design
+    # Regularization factor, for now, it's just implemented in manual design
     "reg" : 0,  
     # AI Backend, can be set to manual, pytorch
     "backend" : "manual",
-    # Amount of given reward for DQN algorithm
+    # Amount of given reward for the DQN algorithm
     "rewardAmount" : 0.1,
-    # Punishment = amount of given negative reward for DQN algorithm
+    # Punishment = amount of given negative reward for the DQN algorithm
     "punishAmount" : -1,
-    # Softmax temperature, used in softmax function implementation
+    # Softmax temperature, used in the softmax function implementation
     "softmaxTemperature" : 10,
-    # Number of iterations in learning phase
+    # Number of iterations in the learning phase
     "learningIterations" : 2500,
-    # Number of iterations in prediction phase
+    # Number of iterations in the prediction phase
     "predictionIterations" : 2500}
 
 
@@ -91,13 +91,8 @@ environmentSettings = {
     "environmentHeight" : 600
 }
 
-```
+**Conclusion**
+The robot behaved as expected. We executed it for 5000 iterations: 2500 iterations for the exploration phase (based on the epsilon-greedy method) and another 2500 iterations for the "prediction phase" (where we stopped the learning and fixed the MLP weights). Here, we provided a video showing its functionality.
 
+This is an experimental project suitable for testing and working with small-scale reinforcement learning tasks, which can be used in experimenting with different algorithms for autonomous systems.
 
----
-**<bold class="text-elite">Conclusion</bold>**
-
-
-The robot exhibited as expected. We executed it for 5000 iterations, 2500 iterations for exploration phase (based on epsillon-greedy method) and another 2500 iterations for "prediction phase" (which we stopped the learning and fixed the MLP weights). Here, we provided a <a href="https://www.youtube.com/embed/Ro-5tXjEGlY">video</a> showing its functionality.
-
-This is a experimental project suitable for testing and working with small-scale reinforcement learning tasks which can be used in experimenting different algorithms for autonomous systems. 
