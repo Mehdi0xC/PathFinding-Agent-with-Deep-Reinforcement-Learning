@@ -90,6 +90,7 @@ environmentSettings = {
     "environmentWidth" : 800,
     "environmentHeight" : 600
 }
+```
 
 **Conclusion**
 The robot behaved as expected. We executed it for 5000 iterations: 2500 iterations for the exploration phase (based on the epsilon-greedy method) and another 2500 iterations for the "prediction phase" (where we stopped the learning and fixed the MLP weights). Here, we provided a video showing its functionality.
